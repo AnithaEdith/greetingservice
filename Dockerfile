@@ -1,6 +1,11 @@
-FROM openjdk:8-jdk-alpine
-VOLUME /tmp
-ARG JAR_FILE
-ADD ${JAR_FILE} app.jar
+FROM anapsix/alpine-java
+
+MAINTAINER Jerome Loisel
+
+ADD target/app.jar app.jar
+
+ADD entrypoint.sh /entrypoint.sh
+
 EXPOSE 4567
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+
+ENTRYPOINT ["/entrypoint.sh"]
