@@ -1,12 +1,12 @@
 FROM alpine/git
 WORKDIR /app
-RUN git clone https://github.com/AnithaEdith/greetingservice.git (1)
+RUN git clone https://github.com/AnithaEdith/greetingservice.git
 FROM maven:3.5-jdk-8-alpine
 WORKDIR /app
-COPY --from=0 /app/greetingservice /app (2)
-RUN mvn install (3)
+COPY --from=0 /app/greetingservice /app
+RUN mvn install
 FROM openjdk:8-jre-alpine
 WORKDIR /app
-COPY --from=1 /app/target/hello.jar /app (4)
+COPY --from=1 /app/target/hello.jar /app
 EXPOSE 4567
-CMD ["java -jar hello.jar"] (5)
+CMD ["java -jar hello.jar"]
