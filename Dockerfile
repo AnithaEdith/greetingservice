@@ -1,12 +1,6 @@
-FROM alpine/git
-WORKDIR /app
-RUN git clone https://github.com/AnithaEdith/greetingservice.git
-FROM maven:3.5-jdk-8-alpine
-WORKDIR /app
-COPY --from=0 /app/greetingservice /app
-RUN mvn install
-FROM openjdk:8-jre-alpine
-WORKDIR /app
-COPY --from=1 /app/target/hello.jar /app
+FROM openjdk:8-jdk-alpine
+VOLUME /tmp
+ADD target/hello.jar app.jar
 EXPOSE 4567
-CMD ["java -jar hello.jar"]
+ENV JAVA_OPTS=""
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
